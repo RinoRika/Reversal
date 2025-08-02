@@ -3,6 +3,7 @@ package cn.stars.reversal.ui.atmoic.mainmenu.impl;
 import cn.stars.reversal.Reversal;
 import cn.stars.reversal.ui.atmoic.mainmenu.AtomicGui;
 import cn.stars.reversal.ui.atmoic.mainmenu.AtomicMenu;
+import dev.yalan.live.gui.GuiLiveAuthentication;
 import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.client.audio.SoundCategory;
 import net.minecraft.client.audio.SoundEventAccessorComposite;
@@ -78,6 +79,7 @@ public class SettingsGui extends AtomicGui {
             }
         }
 
+        this.buttonList.add(new GuiButton(111, this.width / 2 + 5, this.height / 6 + 48 - 31, 150, 20, "Login to LiveService"));
         this.buttonList.add(new GuiButton(110, this.width / 2 - 155, this.height / 6 + 48 - 6, 150, 20, I18n.format("options.skinCustomisation")));
         this.buttonList.add(new GuiButton(8675309, this.width / 2 + 5, this.height / 6 + 48 - 6, 150, 20, "Super Secret Settings...")
         {
@@ -168,6 +170,11 @@ public class SettingsGui extends AtomicGui {
             {
                 mc.gameSettings.saveOptions();
                 mc.displayGuiScreen(new GuiCustomizeSkin(Reversal.atomicMenu));
+            }
+
+            if (button.id == 111) {
+                mc.gameSettings.saveOptions();
+                mc.displayGuiScreen(new GuiLiveAuthentication(Reversal.atomicMenu));
             }
 
             if (button.id == 8675309)

@@ -11,6 +11,9 @@ import cn.stars.reversal.ui.clickgui.modern.ModernClickGUI;
 import cn.stars.reversal.ui.notification.NotificationManager;
 import cn.stars.reversal.util.misc.ModuleInstance;
 import cn.stars.reversal.util.render.RenderUtil;
+import dev.yalan.live.LiveClient;
+import dev.yalan.live.events.*;
+import dev.yalan.live.gui.GuiLiveAuthentication;
 import net.minecraft.client.Minecraft;
 
 import java.awt.*;
@@ -279,6 +282,48 @@ public final class EventHandler {
             }
 
             residentProcessor.onValueChanged(event);
+        } else if (e instanceof EventLiveConnectionStatus) {
+            final EventLiveConnectionStatus el = (EventLiveConnectionStatus) e;
+
+            if (mc.currentScreen instanceof GuiLiveAuthentication) {
+                final GuiLiveAuthentication liveScreen = (GuiLiveAuthentication) mc.currentScreen;
+
+                liveScreen.onLiveConnectionStatus(el);
+            }
+        } else if (e instanceof EventLiveChannelInactive) {
+            final EventLiveChannelInactive el = (EventLiveChannelInactive) e;
+
+            if (mc.currentScreen instanceof GuiLiveAuthentication) {
+                final GuiLiveAuthentication liveScreen = (GuiLiveAuthentication) mc.currentScreen;
+
+                liveScreen.onLiveChannelInactive(el);
+            }
+
+            LiveClient.INSTANCE.liveComponent.onLiveChannelInactive(el);
+        } else if (e instanceof EventLiveChannelException) {
+            final EventLiveChannelException el = (EventLiveChannelException) e;
+
+            if (mc.currentScreen instanceof GuiLiveAuthentication) {
+                final GuiLiveAuthentication liveScreen = (GuiLiveAuthentication) mc.currentScreen;
+
+                liveScreen.onLiveChannelException(el);
+            }
+        } else if (e instanceof EventLiveGenericMessage) {
+            final EventLiveGenericMessage el = (EventLiveGenericMessage) e;
+
+            if (mc.currentScreen instanceof GuiLiveAuthentication) {
+                final GuiLiveAuthentication liveScreen = (GuiLiveAuthentication) mc.currentScreen;
+
+                liveScreen.onLiveGenericMessage(el);
+            }
+        } else if (e instanceof EventLiveAuthenticationResult) {
+            final EventLiveAuthenticationResult el = (EventLiveAuthenticationResult) e;
+
+            if (mc.currentScreen instanceof GuiLiveAuthentication) {
+                final GuiLiveAuthentication liveScreen = (GuiLiveAuthentication) mc.currentScreen;
+
+                liveScreen.onLiveAuthenticationResult(el);
+            }
         }
 
         Reversal.CLIENT_THEME_COLOR = ModuleInstance.getClientSettings().color1.getColor();

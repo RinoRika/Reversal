@@ -7,6 +7,7 @@ import cn.stars.reversal.util.misc.ModuleInstance;
 import com.google.common.collect.ComparisonChain;
 import com.google.common.collect.Ordering;
 import com.mojang.authlib.GameProfile;
+import dev.yalan.live.LiveComponent;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.network.NetHandlerPlayClient;
 import net.minecraft.client.network.NetworkPlayerInfo;
@@ -43,14 +44,9 @@ public class GuiPlayerTabOverlay extends Gui
 
     public String getPlayerName(NetworkPlayerInfo networkPlayerInfoIn)
     {
-        String name = networkPlayerInfoIn.getGameProfile().getName();
         String displayName = networkPlayerInfoIn.getDisplayName() != null ? networkPlayerInfoIn.getDisplayName().getFormattedText() : ScorePlayerTeam.formatPlayerName(networkPlayerInfoIn.getPlayerTeam(), networkPlayerInfoIn.getGameProfile().getName());
-        if (ModuleInstance.getModule(IRC.class).isEnabled() && ModuleInstance.getModule(IRC.class).markOnlineUsers.isEnabled()) {
-            for (String onlineName : RainyAPI.ircUser.onlinePlayers) {
-                if (name.equalsIgnoreCase(onlineName)) {
-                    displayName = "§7[§b§l★§r§7]" + Transformer.getIRCTitle(name) + displayName;
-                }
-            }
+        if (networkPlayerInfoIn.liveUser != null && ModuleInstance.getModule(IRC.class).isEnabled() && ModuleInstance.getModule(IRC.class).markOnlineUsers.isEnabled()) {
+            displayName = LiveComponent.getLiveUserDisplayName(networkPlayerInfoIn.liveUser) + " " + displayName;
         }
         return displayName;
     }

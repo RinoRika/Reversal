@@ -35,6 +35,8 @@ import com.mojang.authlib.minecraft.MinecraftSessionService;
 import com.mojang.authlib.properties.PropertyMap;
 import com.mojang.authlib.yggdrasil.YggdrasilAuthenticationService;
 import de.florianmichael.viamcp.fixes.AttackOrder;
+import dev.yalan.live.LiveClient;
+import dev.yalan.live.netty.LiveProto;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.audio.MusicTicker;
@@ -2115,11 +2117,18 @@ public class Minecraft implements IThreadListener
             this.thePlayer.movementInput = new MovementInputFromOptions(this.gameSettings);
             this.playerController.setPlayerCapabilities(this.thePlayer);
             this.renderViewEntity = this.thePlayer;
+
+            LiveClient.INSTANCE.sendPacket(LiveProto.createUpdateMinecraftProfile(
+                this.thePlayer.getUniqueID(),
+                this.thePlayer.getName()
+            ));
         }
         else
         {
             this.saveLoader.flushCache();
             this.thePlayer = null;
+
+            LiveClient.INSTANCE.sendPacket(LiveProto.createRemoveMinecraftProfile());
         }
 
         this.systemTime = 0L;

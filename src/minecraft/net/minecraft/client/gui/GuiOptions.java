@@ -1,5 +1,6 @@
 package net.minecraft.client.gui;
 
+import dev.yalan.live.gui.GuiLiveAuthentication;
 import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.client.audio.SoundCategory;
 import net.minecraft.client.audio.SoundEventAccessorComposite;
@@ -76,6 +77,7 @@ public class GuiOptions extends GuiScreen implements GuiYesNoCallback
             }
         }
 
+        this.buttonList.add(new GuiButton(111, this.width / 2 + 5, this.height / 6 + 48 - 31, 150, 20, "Login to LiveService"));
         this.buttonList.add(new GuiButton(110, this.width / 2 - 155, this.height / 6 + 48 - 6, 150, 20, I18n.format("options.skinCustomisation")));
         this.buttonList.add(new GuiButton(8675309, this.width / 2 + 5, this.height / 6 + 48 - 6, 150, 20, "Super Secret Settings...")
         {
@@ -166,6 +168,12 @@ public class GuiOptions extends GuiScreen implements GuiYesNoCallback
             {
                 this.mc.gameSettings.saveOptions();
                 this.mc.displayGuiScreen(new GuiCustomizeSkin(this));
+            }
+
+            if (button.id == 111)
+            {
+                this.mc.gameSettings.saveOptions();
+                this.mc.displayGuiScreen(new GuiLiveAuthentication(this));
             }
 
             if (button.id == 8675309)

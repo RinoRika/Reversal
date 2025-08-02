@@ -14,7 +14,7 @@ public class FileUtil {
 
     private static final String SEPARATOR = File.separator;
 
-    private static final String REVERSAL_PATH = mc.mcDataDir.getAbsolutePath() + SEPARATOR + "Reversal" + SEPARATOR;
+    public static final String REVERSAL_PATH = mc.mcDataDir.getAbsolutePath() + SEPARATOR + "Reversal" + SEPARATOR;
 
     public static boolean coreDirectoryExists() {
         return new File(REVERSAL_PATH).exists();

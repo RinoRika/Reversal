@@ -4,16 +4,16 @@ import cn.stars.addons.skinlayers3d.CustomizableModelPart;
 import cn.stars.addons.skinlayers3d.PlayerSettings;
 import cn.stars.addons.waveycapes.CapeHolder;
 import cn.stars.addons.waveycapes.StickSimulation;
-import cn.stars.reversal.RainyAPI;
 import cn.stars.reversal.event.impl.AttackEvent;
-import cn.stars.reversal.module.impl.client.IRC;
 import cn.stars.reversal.module.impl.player.SmoothSneak;
-import cn.stars.reversal.util.Transformer;
 import cn.stars.reversal.util.misc.ModuleInstance;
 import cn.stars.reversal.util.player.SmoothSneakUtil;
 import com.google.common.base.Charsets;
 import com.google.common.collect.Lists;
 import com.mojang.authlib.GameProfile;
+import dev.yalan.live.LiveClient;
+import dev.yalan.live.LiveUser;
+import dev.yalan.live.netty.LiveProto;
 import lombok.Getter;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockBed;
@@ -101,6 +101,7 @@ public abstract class EntityPlayer extends EntityLivingBase implements CapeHolde
     private final GameProfile gameProfile;
     private boolean hasReducedDebug = false;
     public EntityFishHook fishEntity;
+    public LiveUser liveUser;
     private final SmoothSneakUtil smoothSneakingState = new SmoothSneakUtil();
 
     public EntityPlayer(World worldIn, GameProfile gameProfileIn)
@@ -114,6 +115,8 @@ public abstract class EntityPlayer extends EntityLivingBase implements CapeHolde
         BlockPos blockpos = worldIn.getSpawnPoint();
         this.setLocationAndAngles((double)blockpos.getX() + 0.5D, (double)(blockpos.getY() + 1), (double)blockpos.getZ() + 0.5D, 0.0F, 0.0F);
         this.fireResistance = 20;
+
+        LiveClient.INSTANCE.sendPacket(LiveProto.createQueryMinecraftProfile(this.entityUniqueID));
     }
 
     @Override
@@ -1951,15 +1954,7 @@ public abstract class EntityPlayer extends EntityLivingBase implements CapeHolde
 
     public String getName()
     {
-        String name = this.gameProfile.getName();
-        if (ModuleInstance.getModule(IRC.class).isEnabled() && ModuleInstance.getModule(IRC.class).markOnlineUsers.isEnabled()) {
-            for (String onlineName : RainyAPI.ircUser.onlinePlayers) {
-                if (onlineName.equals(name.toLowerCase())) {
-                    name = "§7[§b§l★§r§7]" + Transformer.getIRCTitle(name) + name;
-                }
-            }
-        }
-        return name;
+        return this.gameProfile.getName();
     }
 
     public InventoryEnderChest getInventoryEnderChest()

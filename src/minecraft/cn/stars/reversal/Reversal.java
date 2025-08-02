@@ -34,6 +34,7 @@ import cn.stars.reversal.util.render.video.VideoUtil;
 import cn.stars.reversal.util.reversal.Branch;
 import cn.stars.reversal.util.reversal.Preloader;
 import de.florianmichael.viamcp.ViaMCP;
+import dev.yalan.live.LiveClient;
 import lombok.Getter;
 import net.minecraft.client.Minecraft;
 import net.minecraft.creativetab.CreativeTabs;
@@ -136,6 +137,8 @@ public class Reversal {
 
 
     public static void initialize() {
+        LiveClient.INSTANCE = new LiveClient();
+
         try {
             // Minecraft Pre-Initialize
             // Shut the fast render off
@@ -248,7 +251,6 @@ public class Reversal {
             new ClientTitle(),
             new Config(),
             new Help(),
-            new Online(),
             new Say(),
             new Toggle(),
             new Test()

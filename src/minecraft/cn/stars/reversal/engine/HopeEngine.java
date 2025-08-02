@@ -5,6 +5,7 @@ import cn.stars.reversal.RainyAPI;
 import cn.stars.reversal.Reversal;
 import cn.stars.reversal.font.FontUtil;
 import cn.stars.reversal.util.render.video.VideoUtil;
+import dev.yalan.live.LiveClient;
 import lombok.SneakyThrows;
 import net.minecraft.client.Minecraft;
 import net.minecraft.crash.CrashReport;
@@ -112,9 +113,7 @@ public class HopeEngine {
                 if (terminationErrorFlag) break stopClientServices;
                 VideoUtil.stop();
                 Reversal.stop();
-                if (RainyAPI.ircUser != null) {
-                    RainyAPI.ircUser.stop();
-                }
+                LiveClient.INSTANCE.close();
                 DglabClient.stop();
             } catch (Exception e) {
                 error("Couldn't stop some elements. Unexpected result may happen. Retrying!", e);

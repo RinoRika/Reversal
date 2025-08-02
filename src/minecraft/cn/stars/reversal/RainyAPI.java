@@ -12,7 +12,6 @@ import cn.stars.reversal.util.math.RandomUtil;
 import cn.stars.reversal.util.misc.FileUtil;
 import cn.stars.reversal.util.render.video.BackgroundManager;
 import cn.stars.reversal.util.render.video.VideoUtil;
-import cn.stars.reversal.util.reversal.irc.IRCInstance;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.SneakyThrows;
@@ -41,8 +40,7 @@ public class RainyAPI {
     public static Minecraft mc = Minecraft.getMinecraft();
     public static long window;
     public static int randomTitleId = -1;
-    
-    public static IRCInstance ircUser = null;
+
     public static boolean hasJavaFX = true;
 
     /**
